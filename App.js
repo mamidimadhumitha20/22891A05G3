@@ -1,24 +1,29 @@
 import React, { useState } from "react";
-import { Container, Tabs, Tab, Box } from "@mui/material";
 import UrlForm from "./components/UrlForm";
 import UrlList from "./components/UrlList";
 import StatsPage from "./components/StatsPage";
+import { Container, Tabs, Tab, Box } from "@mui/material";
 
 function App() {
   const [tab, setTab] = useState(0);
-  const [urls, setUrls] = useState([]);
+  const [shortLinks, setShortLinks] = useState([]);
+
+  const handleNewLinks = (links) => {
+    setShortLinks([...shortLinks, ...links]);
+  };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 5 }}>
-      <Tabs value={tab} onChange={(e, v) => setTab(v)} centered>
-        <Tab label="Shortener" />
-        <Tab label="Statistics" />
+    <Container maxWidth="md" sx={{ mt: 4 }}>
+      <Tabs value={tab} onChange={(e, newValue) => setTab(newValue)} centered>
+        <Tab label="SHORTENER" />
+        <Tab label="STATISTICS" />
       </Tabs>
+
       <Box sx={{ mt: 3 }}>
         {tab === 0 && (
           <>
-            <UrlForm onShortened={setUrls} />
-            <UrlList urls={urls} />
+            <UrlForm onShorten={handleNewLinks} />
+            <UrlList links={shortLinks} />
           </>
         )}
         {tab === 1 && <StatsPage />}
